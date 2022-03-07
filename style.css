@@ -29,3 +29,15 @@ body {
 .btn:not(:first-child){
     margin-left: 15px;
 }
+
+.rangeContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto 0 auto;
+    width: 250px;
+}
+
+.rangeContainer label {
+    text-align: center;
+    user-select: none;
+}

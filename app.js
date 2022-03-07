@@ -1,8 +1,10 @@
 let run = false;
 const blockHeight = Math.floor((250 - 20)/100);
-const animationTime = 200;
 const startButton = document.getElementById('start_pause');
 const resetButton = document.getElementById('reset');
+const sortingSpeedRange = document.getElementById('sortingSpeedRange');
+const sortingSpeedLabel = document.getElementById('sortingSpeedLabel');
+let animationTime = sortingSpeedRange.value;
 
 const drawChart = (lst) => {
     lst.forEach((value, index) =>{
@@ -14,16 +16,27 @@ const drawChart = (lst) => {
 
 drawChart(randomNumberArrayGenerator());
 
+const setButtonToStart = () => {
+    startButton.innerText = 'Start';
+    startButton.classList.remove('btn-danger');
+}
+
 const sortingFunctionFactory = () => {
     const svgGroups = document.querySelectorAll('g')
     const generatorFunction = bubbleSort(Array.from(svgGroups))
     
     const startInterval = () => {
         const iid = setInterval(()=>{
+            let isDone
             if(run){
-                generatorFunction.next()
+                const { done } = generatorFunction.next()
+                isDone = done;
             } else {
-                clearInterval(iid)
+                clearInterval(iid);
+                setButtonToStart();
+            }
+            if(isDone){
+                startButton.setAttribute('disabled', true);
             }
         }, animationTime)
     }
@@ -39,32 +52,49 @@ const start_or_pause = (run) => {
         startInterval();
         startButton.classList.add('btn-danger')
     } else {
-        startButton.innerText = 'Start'
-        startButton.classList.remove('btn-danger')
+        setButtonToStart();
+    }
+}
+
+const setRangerDisability = (isDisabled) => {
+    if(isDisabled){
+        sortingSpeedRange.setAttribute('disabled', true);
+    } else {
+        sortingSpeedRange.removeAttribute('disabled');
     }
 }
 
 const resetChart = () => {
     run = false;
+    setRangerDisability(run);
     start_or_pause(run);
     canvas.innerHTML = null;
     drawChart(randomNumberArrayGenerator());
     startInterval = sortingFunctionFactory();
+    startButton.removeAttribute('disabled');
 }
 
+const setSortingSpeed = (sortingSpeed) => {
+    sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`
+    animationTime = parseInt(sortingSpeed)
+}
 
 window.addEventListener('keypress', (event) => {
     if(event.code === 'Space'){
         run = !run;
-        start_or_pause(run)
+        setRangerDisability(run);
+        start_or_pause(run);
     }
     if(event.code === 'KeyR'){
         resetChart()
     }
 })
 
+sortingSpeedRange.addEventListener('change', (e) => setSortingSpeed(e.target.value))
+
 startButton.addEventListener('click', () => {
     run = !run;
+    setRangerDisability(run);
     start_or_pause(run)
     startButton.blur();
 })
