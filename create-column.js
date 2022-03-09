@@ -1,7 +1,7 @@
 const svgns = "http://www.w3.org/2000/svg";
 const canvas = document.getElementById('canvas');
 
-const createColumn = (columnHeight, y, index, value) => {
+export const createColumn = (columnHeight, y, index, value) => {
     const g = document.createElementNS(svgns, 'g');
     g.setAttribute("transform", `translate(${8 + (53*index)}, ${y})`);
 

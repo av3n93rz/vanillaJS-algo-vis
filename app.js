@@ -1,105 +1,109 @@
-let run = false;
-const blockHeight = Math.floor((250 - 20)/100);
-const startButton = document.getElementById('start_pause');
-const resetButton = document.getElementById('reset');
-const sortingSpeedRange = document.getElementById('sortingSpeedRange');
-const sortingSpeedLabel = document.getElementById('sortingSpeedLabel');
-let animationTime = sortingSpeedRange.value;
+import { BubbleSort } from './bubble-sort.js'
+import { drawChart } from './draw-chart.js'
+import { SortingFunctionFactory } from './sorting-factory.js'
 
-const drawChart = (lst) => {
-    lst.forEach((value, index) =>{
-        const columnHeight = value * blockHeight;
-        const y = 240 - columnHeight;
-        createColumn(columnHeight, y, index, value)
-    })
-}
-
-drawChart(randomNumberArrayGenerator());
-
-const setButtonToStart = () => {
-    startButton.innerText = 'Start';
-    startButton.classList.remove('btn-danger');
-}
-
-const sortingFunctionFactory = () => {
-    const svgGroups = document.querySelectorAll('g')
-    const generatorFunction = bubbleSort(Array.from(svgGroups))
-    
-    const startInterval = () => {
-        const iid = setInterval(()=>{
-            let isDone
-            if(run){
-                const { done } = generatorFunction.next()
-                isDone = done;
-            } else {
-                clearInterval(iid);
-                setButtonToStart();
-            }
-            if(isDone){
-                startButton.setAttribute('disabled', true);
-            }
-        }, animationTime)
-    }
-
-    return startInterval;
-}
-
-let startInterval = sortingFunctionFactory();
-
-const start_or_pause = (run) => {
-    if(run){
-        startButton.innerText = 'Pause'
-        startInterval();
-        startButton.classList.add('btn-danger')
-    } else {
-        setButtonToStart();
-    }
-}
-
-const setRangerDisability = (isDisabled) => {
-    if(isDisabled){
-        sortingSpeedRange.setAttribute('disabled', true);
-    } else {
-        sortingSpeedRange.removeAttribute('disabled');
-    }
-}
-
-const resetChart = () => {
+export class SortingApplication {
+    startButton = document.getElementById('start_pause');
+    resetButton = document.getElementById('reset');
+    sortingSpeedRange = document.getElementById('sortingSpeedRange');
+    sortingSpeedLabel = document.getElementById('sortingSpeedLabel');
+    canvas = document.getElementById('canvas');
+    animationTime = sortingSpeedRange.value;
     run = false;
-    setRangerDisability(run);
-    start_or_pause(run);
-    canvas.innerHTML = null;
-    drawChart(randomNumberArrayGenerator());
-    startInterval = sortingFunctionFactory();
-    startButton.removeAttribute('disabled');
-}
+    svgGroups;
+    generatorFunction;
+    sortingAlgorythm;
 
-const setSortingSpeed = (sortingSpeed) => {
-    sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`
-    animationTime = parseInt(sortingSpeed)
-}
-
-window.addEventListener('keypress', (event) => {
-    if(event.code === 'Space'){
-        run = !run;
-        setRangerDisability(run);
-        start_or_pause(run);
+    setRun = (run) => {
+        this.run = run;
+        this.setRangerDisability(run);
+        this.startApplication();
     }
-    if(event.code === 'KeyR'){
-        resetChart()
+
+    setButtonToStart = () => {
+        this.startButton.innerText = 'Start';
+        this.startButton.classList.remove('btn-danger');
     }
-})
 
-sortingSpeedRange.addEventListener('change', (e) => setSortingSpeed(e.target.value))
+    startApplication = () => {
+        if(this.run){
+            this.startButton.innerText = 'Pause'
+            this.sortingFunctionFactory.setRun(this.run);
+            this.sortingFunctionFactory.startInterval();
+            this.startButton.classList.add('btn-danger')
+        } else {
+            this.sortingFunctionFactory.setRun(this.run);
+            this.setButtonToStart();
+        }
+    }
 
-startButton.addEventListener('click', () => {
-    run = !run;
-    setRangerDisability(run);
-    start_or_pause(run)
-    startButton.blur();
-})
+    setRangerDisability = (isDisabled) => {
+        if(isDisabled){
+            this.sortingSpeedRange.setAttribute('disabled', true);
+        } else {
+            this.sortingSpeedRange.removeAttribute('disabled');
+        }
+    }
+    
+    setSortingSpeed = (sortingSpeed) => {
+        this.sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`
+        this.animationTime = parseInt(sortingSpeed)
+        this.sortingFunctionFactory.setAnimationTime(this.animationTime)
+        this.sortingAlgorythm.setAnimationTime(this.animationTime)
+    }
 
-reset.addEventListener('click', () => {
-    resetChart();
-    resetButton.blur();
-})
+    resetChart = () => {
+        this.setRun(false);
+        this.canvas.innerHTML = null;
+        drawChart();
+        this.svgGroups = document.querySelectorAll('g')
+        this.sortingAlgorythm = new BubbleSort(this.animationTime);
+        this.generatorFunction = this.sortingAlgorythm.bubbleSort(Array.from(this.svgGroups))
+        this.sortingFunctionFactory = new SortingFunctionFactory(
+            this.startButton,
+            this.setButtonToStart,
+            this.run,
+            this.animationTime,
+            this.generatorFunction,
+            this.setRun,
+        );
+        this.startButton.removeAttribute('disabled');
+    }
+
+    constructor(){
+        drawChart();
+
+        this.svgGroups = document.querySelectorAll('g')
+        this.sortingAlgorythm = new BubbleSort(this.animationTime);
+        this.generatorFunction = this.sortingAlgorythm.bubbleSort(Array.from(this.svgGroups))
+        this.sortingFunctionFactory = new SortingFunctionFactory(
+            this.startButton,
+            this.setButtonToStart,
+            this.run,
+            this.animationTime,
+            this.generatorFunction,
+            this.setRun,
+        );
+        
+        window.addEventListener('keypress', (event) => {
+            if(event.code === 'Space'){
+                this.setRun(!this.run);
+            }
+            if(event.code === 'KeyR'){
+                this.resetChart()
+            }
+        })
+        
+        this.sortingSpeedRange.addEventListener('change', (e) => this.setSortingSpeed(e.target.value))
+        
+        this.startButton.addEventListener('click', () => {
+            this.setRun(!this.run);
+            this.startButton.blur();
+        })
+        
+        this.resetButton.addEventListener('click', () => {
+            this.resetChart();
+            this.resetButton.blur();
+        })
+    }
+}

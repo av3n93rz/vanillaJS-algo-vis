@@ -1,7 +1,15 @@
-function* bubbleSort(lst) {
-    for (let i = 0; i < lst.length; i++){
-        noswaps = true
-        for (let j = 0; j < lst.length - i - 1; j++){
+export class BubbleSort {
+    animationTime;
+
+    setAnimationTime = (animationTime) => {
+        this.animationTime = animationTime
+    }
+
+    bubbleSort = function* (lst) {
+        let noswaps = false;
+        for (let i = 0; i < lst.length; i++){
+            noswaps = true
+            for (let j = 0; j < lst.length - i - 1; j++){
             lst[j].childNodes[0].style = 'fill: rgb(0, 216, 0);'
             lst[j+1].childNodes[0].style = 'fill: rgb(0, 216, 0);'
             yield true
@@ -13,25 +21,29 @@ function* bubbleSort(lst) {
                 lst[j].animate([
                     { transform: `translate(${num1T[0]}px, ${num1T[1]}px)` },
                     { transform: `translate(${num2T[0]}px, ${num1T[1]}px)` }
-                  ], animationTime/2)
-                lst[j+1].animate([
-                    { transform: `translate(${num2T[0]}px, ${num2T[1]}px)` },
-                    { transform: `translate(${num1T[0]}px, ${num2T[1]}px)` }
-                  ], animationTime/2)
-                lst[j].setAttribute("transform", `translate(${num2T[0]}, ${num1T[1]})`)
-                lst[j+1].setAttribute("transform", `translate(${num1T[0]}, ${num2T[1]})`)
-                const currentElement = lst.splice(j, 1)
-                lst.splice(j+1, 0, currentElement[0])
+                  ], this.animationTime/2)
+                  lst[j+1].animate([
+                      { transform: `translate(${num2T[0]}px, ${num2T[1]}px)` },
+                      { transform: `translate(${num1T[0]}px, ${num2T[1]}px)` }
+                    ], this.animationTime/2)
+                    lst[j].setAttribute("transform", `translate(${num2T[0]}, ${num1T[1]})`)
+                    lst[j+1].setAttribute("transform", `translate(${num1T[0]}, ${num2T[1]})`)
+                    const currentElement = lst.splice(j, 1)
+                    lst.splice(j+1, 0, currentElement[0])
+                }
+                yield true
+                lst[j].childNodes[0].style = 'fill: rgb(173, 216, 230);'
+                lst[j+1].childNodes[0].style = 'fill: rgb(173, 216, 230);'
+                yield true
             }
-            yield true
-            lst[j].childNodes[0].style = 'fill: rgb(173, 216, 230);'
-            lst[j+1].childNodes[0].style = 'fill: rgb(173, 216, 230);'
-            yield true
+            if(noswaps){
+                break
+            };
         }
-        if(noswaps){
-            run = false
-            break
-        };
+        return lst
     }
-    return lst
+
+    constructor(animationTime){
+        this.setAnimationTime(animationTime);
+    }
 }
