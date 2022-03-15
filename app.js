@@ -1,6 +1,7 @@
 import { BubbleSort } from './bubble-sort.js'
 import { drawChart } from './draw-chart.js'
 import { SortingFunctionFactory } from './sorting-factory.js'
+import { StartButtonService } from './start-button.service.js'
 
 export class SortingApplication {
     startButton = document.getElementById('start_pause');
@@ -14,26 +15,16 @@ export class SortingApplication {
     generatorFunction;
     sortingAlgorythm;
 
-    setRun = (run) => {
-        this.run = run;
-        this.setRangerDisability(run);
-        this.startApplication();
-    }
-
-    setButtonToStart = () => {
-        this.startButton.innerText = 'Start';
-        this.startButton.classList.remove('btn-danger');
-    }
-
-    startApplication = () => {
+    setRun = (isRunning) => {
+        this.run = isRunning ?? !this.run;
+        this.setRangerDisability(this.run);
         if(this.run){
-            this.startButton.innerText = 'Pause'
-            this.sortingFunctionFactory.setRun(this.run);
+            this.startButtonService.setToPause();
+            this.sortingFunctionFactory.setRunInterval(this.run);
             this.sortingFunctionFactory.startInterval();
-            this.startButton.classList.add('btn-danger')
         } else {
-            this.sortingFunctionFactory.setRun(this.run);
-            this.setButtonToStart();
+            this.sortingFunctionFactory.setRunInterval(this.run);
+            this.startButtonService.setToStart();
         }
     }
 
@@ -52,42 +43,32 @@ export class SortingApplication {
         this.sortingAlgorythm.setAnimationTime(this.animationTime)
     }
 
-    resetChart = () => {
-        this.setRun(false);
+    resetChart = (isInit) => {
+        if(!isInit){
+            this.setRun(false);
+        }
         this.canvas.innerHTML = null;
         drawChart();
         this.svgGroups = document.querySelectorAll('g')
         this.sortingAlgorythm = new BubbleSort(this.animationTime);
         this.generatorFunction = this.sortingAlgorythm.bubbleSort(Array.from(this.svgGroups))
         this.sortingFunctionFactory = new SortingFunctionFactory(
-            this.startButton,
-            this.setButtonToStart,
+            this.startButtonService,
             this.run,
             this.animationTime,
             this.generatorFunction,
             this.setRun,
         );
-        this.startButton.removeAttribute('disabled');
+        this.startButtonService.setDisabled(false);
     }
 
     constructor(){
-        drawChart();
-
-        this.svgGroups = document.querySelectorAll('g')
-        this.sortingAlgorythm = new BubbleSort(this.animationTime);
-        this.generatorFunction = this.sortingAlgorythm.bubbleSort(Array.from(this.svgGroups))
-        this.sortingFunctionFactory = new SortingFunctionFactory(
-            this.startButton,
-            this.setButtonToStart,
-            this.run,
-            this.animationTime,
-            this.generatorFunction,
-            this.setRun,
-        );
+        this.startButtonService = new StartButtonService();
+        this.resetChart(true);
         
         window.addEventListener('keypress', (event) => {
             if(event.code === 'Space'){
-                this.setRun(!this.run);
+                this.setRun();
             }
             if(event.code === 'KeyR'){
                 this.resetChart()
@@ -97,8 +78,8 @@ export class SortingApplication {
         this.sortingSpeedRange.addEventListener('change', (e) => this.setSortingSpeed(e.target.value))
         
         this.startButton.addEventListener('click', () => {
-            this.setRun(!this.run);
-            this.startButton.blur();
+            this.setRun();
+            this.startButtonService.blur();
         })
         
         this.resetButton.addEventListener('click', () => {

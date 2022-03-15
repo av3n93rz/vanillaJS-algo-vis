@@ -1,11 +1,11 @@
 
 export class SortingFunctionFactory {
-    run;
+    runInterval;
     animationTime;
     generatorFunction;
 
-    setRun = (run) => {
-        this.run = run;
+    setRunInterval = (run) => {
+        this.runInterval = run;
     };
 
     setAnimationTime = (animationTime) => {
@@ -16,7 +16,7 @@ export class SortingFunctionFactory {
         const iid = setInterval(() => {
             let isDone;
 
-            if(this.run){
+            if(this.runInterval){
                 const { done } = this.generatorFunction.next();
                 isDone = done;
             } else {
@@ -25,17 +25,15 @@ export class SortingFunctionFactory {
             };
 
             if(isDone){
-                this.setAppState(false);
-                this.startButton.setAttribute('disabled', true);
+                this.startButtonService.setDisabled(true)
             };
 
         }, this.animationTime)
     }
 
-    constructor(startButton, setButtonToStart, run, animationTime, generatorFunction, setAppState) {
-        this.startButton = startButton;
-        this.setButtonToStart = setButtonToStart;
-        this.run = run;
+    constructor(startButtonService, run, animationTime, generatorFunction, setAppState) {
+        this.startButtonService = startButtonService;
+        this.runInterval = run;
         this.animationTime = animationTime;
         this.generatorFunction = generatorFunction;
         this.setAppState = setAppState;
