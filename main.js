@@ -1,3 +1,3 @@
-import { SortingApplication } from './app.js'
+import { SortingApplication } from './application/app.js';
 
 new SortingApplication();

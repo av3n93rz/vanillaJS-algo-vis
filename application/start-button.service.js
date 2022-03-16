@@ -15,19 +15,19 @@ export class StartButtonService {
     };
 
     setToPause = () => {
-        this.startButton.innerText = 'Pause';
-        this.startButton.classList.add('btn-danger');
+        this.#startButton.innerText = 'Pause';
+        this.#startButton.classList.add('btn-danger');
     };
 
     blur = () => {
         this.#startButton.blur();
     };
 
-    constructor(appStateSetter){
+    constructor(appStateSetter) {
         this.#startButton = document.getElementById('start_pause');
         this.#startButton.addEventListener('click', () => {
-            //this.setRun(!this.run);
+            appStateSetter();
             this.blur();
-        })
+        });
     };
 };
