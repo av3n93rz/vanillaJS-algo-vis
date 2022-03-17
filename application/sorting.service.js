@@ -1,5 +1,3 @@
-
-import { BubbleSort } from './bubble-sort.js';
 import { SpeedRangeService } from './speed-range.service.js';
 
 export class SortingService {
@@ -9,6 +7,7 @@ export class SortingService {
     #sortingAlgorithm;
     #generatorFunction;
     #speedRangeService;
+    #columns;
 
     #setStartButton = () => {
         if(this.#runInterval) {
@@ -55,9 +54,14 @@ export class SortingService {
         this.#startInterval();
     };
 
-    constructor(startButtonService, svgGroups) {
-        this.#sortingAlgorithm = new BubbleSort(svgGroups);
+    setAlgorithm = (SortingAlgorithm) => {
+        this.#sortingAlgorithm = new SortingAlgorithm(this.#columns);
         this.#generatorFunction = this.#sortingAlgorithm.generator();
+    }
+ 
+    constructor(SortingAlgorithm, startButtonService, columns) {
+        this.#columns = columns;
+        this.setAlgorithm(SortingAlgorithm);
         this.#startButtonService = startButtonService;
         this.#startButtonService.setDisabled(false);
         this.#speedRangeService = new SpeedRangeService();

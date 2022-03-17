@@ -21,7 +21,6 @@ body {
 }
 
 .btn_container {
-    margin-top: 50px;
     display: flex;
     justify-content:center;
 }
@@ -40,4 +39,10 @@ body {
 .rangeContainer label {
     text-align: center;
     user-select: none;
+}
+
+.settings {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
