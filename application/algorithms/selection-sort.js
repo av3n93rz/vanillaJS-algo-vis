@@ -2,6 +2,7 @@ export class SelectionSort {
     animationTime;
     #lst;
     #counterService;
+    #order;
 
     setAnimationTime = (animationTime) => {
         this.animationTime = animationTime
@@ -17,7 +18,7 @@ export class SelectionSort {
                 current.fillWithGreen();
                 yield true;
                 this.#counterService.setComparison();
-                if(min.value > current.value) {
+                if((min.value > current.value && this.#order === 'asc') || (min.value < current.value && this.#order === 'desc')) {
                     min.fillWithBlue();
                     min = this.#lst[j];
                     min_index = j;
@@ -50,8 +51,9 @@ export class SelectionSort {
         return this.#lst;
     }
 
-    constructor(svgGroups, counterService){
+    constructor(svgGroups, counterService, order){
         this.#lst = svgGroups;
         this.#counterService = counterService;
+        this.#order = order;
     };
 };

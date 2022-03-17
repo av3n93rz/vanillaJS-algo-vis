@@ -46,6 +46,14 @@ body {
     justify-content: center;
 }
 
+.settings > div {
+    width: 250px;
+}
+
+.settings > div:not(:first-child){
+    margin-left: 50px;
+}
+
 .counter_container p {
     margin-bottom: 0px;
     font-weight: 600;
@@ -53,4 +61,24 @@ body {
 
 .counter_container {
     margin-bottom: 5px;
+}
+
+.sortingOrder {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 25px;
+}
+
+.sortingOrder .selectedOrder {
+    background: rgb(25, 135, 84);
+}
+
+.sortingOrder button {
+    margin-bottom: 0px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(214, 214, 214);
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
 }

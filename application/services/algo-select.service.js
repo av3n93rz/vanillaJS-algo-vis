@@ -1,5 +1,5 @@
-import { BubbleSort } from './bubble-sort.js';
-import { SelectionSort } from './selection-sort.js';
+import { BubbleSort } from '../algorithms/bubble-sort.js';
+import { SelectionSort } from '../algorithms/selection-sort.js';
 
 export class AlgoSelectService {
     #algoSelect;

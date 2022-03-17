@@ -2,6 +2,7 @@ export class BubbleSort {
     animationTime;
     #lst;
     #counterService;
+    #order;
 
     setAnimationTime = (animationTime) => {
         this.animationTime = animationTime
@@ -18,7 +19,7 @@ export class BubbleSort {
                 col2.fillWithGreen();
                 yield true
                 this.#counterService.setComparison();
-                if(col1.value > col2.value) {
+                if((col1.value > col2.value && this.#order === 'asc') || (col1.value < col2.value && this.#order === 'desc')) {
                     noswaps = false
                     const col_1_x = col1.getCoordinates()[0];
                     const col_2_x = col2.getCoordinates()[0];
@@ -40,8 +41,9 @@ export class BubbleSort {
         return this.#lst;
     }
 
-    constructor(svgGroups, counterService){
+    constructor(svgGroups, counterService, order){
         this.#lst = svgGroups;
         this.#counterService = counterService;
+        this.#order = order;
     };
 };

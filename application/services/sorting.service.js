@@ -55,16 +55,16 @@ export class SortingService {
         this.#startInterval();
     };
 
-    setAlgorithm = (SortingAlgorithm) => {
-        this.#sortingAlgorithm = new SortingAlgorithm(this.#columns, this.counterService);
+    setAlgorithm = (SortingAlgorithm, order) => {
+        this.#sortingAlgorithm = new SortingAlgorithm(this.#columns, this.counterService, order);
         this.#generatorFunction = this.#sortingAlgorithm.generator();
     }
  
-    constructor(SortingAlgorithm, startButtonService, columns) {
+    constructor(SortingAlgorithm, order, startButtonService, columns) {
         this.#columns = columns;
         this.counterService = new CounterService();
         this.counterService.clearValues();
-        this.setAlgorithm(SortingAlgorithm);
+        this.setAlgorithm(SortingAlgorithm, order);
         this.#startButtonService = startButtonService;
         this.#startButtonService.setDisabled(false);
         this.#speedRangeService = new SpeedRangeService();

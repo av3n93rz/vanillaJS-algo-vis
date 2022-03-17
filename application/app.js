@@ -1,9 +1,10 @@
-import { SortingService } from './sorting.service.js'
-import { StartButtonService } from './start-button.service.js'
-import { ResetButtonService } from './reset-button.service.js'
-import { WindowService } from './window.service.js'
-import { CanvasService } from './canvas.service.js'
-import { AlgoSelectService } from './algo-select.service.js';
+import { SortingService } from './services/sorting.service.js'
+import { StartButtonService } from './services/start-button.service.js'
+import { ResetButtonService } from './services/reset-button.service.js'
+import { WindowService } from './services/window.service.js'
+import { CanvasService } from './services/canvas.service.js'
+import { AlgoSelectService } from './services/algo-select.service.js';
+import { OrderService } from './services/order.service.js';
 export class SortingApplication {
     run = false;
 
@@ -21,9 +22,11 @@ export class SortingApplication {
             this.setRun(false);
         };
         const sortingAlgorithm = this.algoSelectService.getSelectedAlgorithm();
+        const order = this.orderService.getOrder();
         const columns = this.canvasService.resetCanvas();
         this.sortingService = new SortingService(
             sortingAlgorithm,
+            order,
             this.startButtonService,
             columns,
         );
@@ -31,6 +34,7 @@ export class SortingApplication {
 
     constructor(){
         this.algoSelectService = new AlgoSelectService(this.resetApp);
+        this.orderService = new OrderService(this.resetApp);
         this.canvasService = new CanvasService();
         this.startButtonService = new StartButtonService(this.setRun);
         this.resetButtonService = new ResetButtonService(this.resetApp);
