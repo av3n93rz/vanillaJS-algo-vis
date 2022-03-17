@@ -1,4 +1,5 @@
 import { SpeedRangeService } from './speed-range.service.js';
+import { CounterService } from './counter.service.js';
 
 export class SortingService {
     #runInterval;
@@ -55,12 +56,14 @@ export class SortingService {
     };
 
     setAlgorithm = (SortingAlgorithm) => {
-        this.#sortingAlgorithm = new SortingAlgorithm(this.#columns);
+        this.#sortingAlgorithm = new SortingAlgorithm(this.#columns, this.counterService);
         this.#generatorFunction = this.#sortingAlgorithm.generator();
     }
  
     constructor(SortingAlgorithm, startButtonService, columns) {
         this.#columns = columns;
+        this.counterService = new CounterService();
+        this.counterService.clearValues();
         this.setAlgorithm(SortingAlgorithm);
         this.#startButtonService = startButtonService;
         this.#startButtonService.setDisabled(false);

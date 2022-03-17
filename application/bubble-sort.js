@@ -1,6 +1,7 @@
 export class BubbleSort {
     animationTime;
     #lst;
+    #counterService;
 
     setAnimationTime = (animationTime) => {
         this.animationTime = animationTime
@@ -16,12 +17,14 @@ export class BubbleSort {
                 col1.fillWithGreen();
                 col2.fillWithGreen();
                 yield true
+                this.#counterService.setComparison();
                 if(col1.value > col2.value) {
                     noswaps = false
                     const col_1_x = col1.getCoordinates()[0];
                     const col_2_x = col2.getCoordinates()[0];
                     col1.animate(col_2_x, this.animationTime);
                     col2.animate(col_1_x, this.animationTime);
+                    this.#counterService.setSwap();
                     const currentElement = this.#lst.splice(j, 1)
                     this.#lst.splice(j+1, 0, currentElement[0])
                 } 
@@ -37,7 +40,8 @@ export class BubbleSort {
         return this.#lst;
     }
 
-    constructor(svgGroups){
+    constructor(svgGroups, counterService){
         this.#lst = svgGroups;
+        this.#counterService = counterService;
     };
 };

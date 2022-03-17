@@ -1,6 +1,7 @@
 export class SelectionSort {
     animationTime;
     #lst;
+    #counterService;
 
     setAnimationTime = (animationTime) => {
         this.animationTime = animationTime
@@ -15,6 +16,7 @@ export class SelectionSort {
                 const current = this.#lst[j];
                 current.fillWithGreen();
                 yield true;
+                this.#counterService.setComparison();
                 if(min.value > current.value) {
                     min.fillWithBlue();
                     min = this.#lst[j];
@@ -34,6 +36,7 @@ export class SelectionSort {
                 const col_2_x = col2.getCoordinates()[0];
                 col1.animate(col_2_x, this.animationTime);
                 col2.animate(col_1_x, this.animationTime);
+                this.#counterService.setSwap();
                 const currentElement = this.#lst.splice(min_index, 1);
                 this.#lst.splice(i, 0, currentElement[0]);
                 const swappedElement = this.#lst.splice(i+1, 1);
@@ -47,7 +50,8 @@ export class SelectionSort {
         return this.#lst;
     }
 
-    constructor(svgGroups){
+    constructor(svgGroups, counterService){
         this.#lst = svgGroups;
+        this.#counterService = counterService;
     };
 };

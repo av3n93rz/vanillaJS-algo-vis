@@ -9,7 +9,6 @@ body {
 
 .chart {
     margin-top: 200px;
-    height: 250px;
     display: flex;
     justify-content: center;
 }
@@ -45,4 +44,13 @@ body {
     margin-top: 50px;
     display: flex;
     justify-content: center;
+}
+
+.counter_container p {
+    margin-bottom: 0px;
+    font-weight: 600;
+}
+
+.counter_container {
+    margin-bottom: 5px;
 }
