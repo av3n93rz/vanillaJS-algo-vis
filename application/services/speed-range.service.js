@@ -13,14 +13,17 @@ export class SpeedRangeService {
         };
     };
 
+    #getDisability = () => this.#sortingSpeedRange.getAttribute('disabled');
+
     setSortingSpeed = (sortingSpeed) => {
         this.#sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`;
         this.#animationTime = parseInt(sortingSpeed);
     };
 
     increaseSpeed = () => {
+        const isDisabled = this.#getDisability();
         const currentSpeed = Number(this.#animationTime);
-        if(currentSpeed > 0) {
+        if(currentSpeed > 0 && !isDisabled) {
             const newValue = currentSpeed - 100;
             this.setSortingSpeed(newValue);
             this.#sortingSpeedRange.value = newValue;
@@ -28,8 +31,9 @@ export class SpeedRangeService {
     };
 
     decreaseSpeed = () => {
+        const isDisabled = this.#getDisability();
         const currentSpeed = Number(this.#animationTime);
-        if(currentSpeed < 2000) {
+        if(currentSpeed < 2000 && !isDisabled) {
             const newValue = currentSpeed + 100;
             this.setSortingSpeed(newValue);
             this.#sortingSpeedRange.value = newValue;
