@@ -3,7 +3,7 @@ export class OrderService {
     #desc;
     #order;
 
-    #setOrder = (order) => {
+    setOrder = (order) => {
         this.#order = order;
         if(order === 'asc') {
             this.#asc.classList.add('btn-success');
@@ -31,12 +31,12 @@ export class OrderService {
         this.#order = 'asc';
         this.#asc.addEventListener('click', () => {
             this.#asc.blur();
-            this.#setOrder('asc');
+            this.setOrder('asc');
             resetApp();
         })
         this.#desc.addEventListener('click', () => {
             this.#desc.blur();
-            this.#setOrder('desc');
+            this.setOrder('desc');
             resetApp();
         })
     };

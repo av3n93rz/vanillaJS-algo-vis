@@ -1,4 +1,3 @@
-import { SpeedRangeService } from './speed-range.service.js';
 import { CounterService } from './counter.service.js';
 
 export class SortingService {
@@ -60,14 +59,20 @@ export class SortingService {
         this.#generatorFunction = this.#sortingAlgorithm.generator();
     }
  
-    constructor(SortingAlgorithm, order, startButtonService, columns) {
+    constructor({
+        order,
+        columns,
+        SortingAlgorithm,
+        startButtonService,
+        speedRangeService,
+    }) {
         this.#columns = columns;
         this.counterService = new CounterService();
         this.counterService.clearValues();
         this.setAlgorithm(SortingAlgorithm, order);
         this.#startButtonService = startButtonService;
         this.#startButtonService.setDisabled(false);
-        this.#speedRangeService = new SpeedRangeService();
+        this.#speedRangeService = speedRangeService;
         this.setRunInterval(false);
     };
 };

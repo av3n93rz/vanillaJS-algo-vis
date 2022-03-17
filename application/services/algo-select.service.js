@@ -3,7 +3,8 @@ import { SelectionSort } from '../algorithms/selection-sort.js';
 
 export class AlgoSelectService {
     #algoSelect;
-    #isOpen
+    #isOpen;
+    #resetApp;
 
     blur = () => {
         this.#algoSelect.blur();
@@ -18,8 +19,30 @@ export class AlgoSelectService {
         }
     }
 
+    #getSelectedOptionsIndex = () => {
+        return Array.from(this.#algoSelect.children).findIndex((element) => element.selected);
+    };
+
+    changeUp = () => {
+        const currentIndex = this.#getSelectedOptionsIndex();
+        if(currentIndex > 0) {
+            this.#algoSelect.value = this.#algoSelect.children[currentIndex-1].value;
+            this.#resetApp();
+        };
+    };
+
+    changeDown = () => {
+        const currentIndex = this.#getSelectedOptionsIndex();
+        const optionsCount = this.#algoSelect.children.length;
+        if(currentIndex < optionsCount - 1) {
+            this.#algoSelect.value = this.#algoSelect.children[currentIndex+1].value;
+            this.#resetApp();
+        };
+    };
+
     constructor(resetApp) {
         this.#isOpen = false;
+        this.#resetApp = resetApp;
         this.#algoSelect = document.getElementById('algoSelect');
         this.#algoSelect.addEventListener('mouseup', () => {
             this.#isOpen = !this.#isOpen;

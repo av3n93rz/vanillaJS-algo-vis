@@ -18,6 +18,24 @@ export class SpeedRangeService {
         this.#animationTime = parseInt(sortingSpeed);
     };
 
+    increaseSpeed = () => {
+        const currentSpeed = Number(this.#animationTime);
+        if(currentSpeed > 0) {
+            const newValue = currentSpeed - 100;
+            this.setSortingSpeed(newValue);
+            this.#sortingSpeedRange.value = newValue;
+        }
+    };
+
+    decreaseSpeed = () => {
+        const currentSpeed = Number(this.#animationTime);
+        if(currentSpeed < 2000) {
+            const newValue = currentSpeed + 100;
+            this.setSortingSpeed(newValue);
+            this.#sortingSpeedRange.value = newValue;
+        }
+    };
+
     constructor() {
         this.#sortingSpeedLabel = document.getElementById('sortingSpeedLabel');
         this.#sortingSpeedRange = document.getElementById('sortingSpeedRange');

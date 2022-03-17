@@ -5,6 +5,8 @@ import { WindowService } from './services/window.service.js'
 import { CanvasService } from './services/canvas.service.js'
 import { AlgoSelectService } from './services/algo-select.service.js';
 import { OrderService } from './services/order.service.js';
+import { SpeedRangeService } from './services/speed-range.service.js';
+
 export class SortingApplication {
     run = false;
 
@@ -24,21 +26,29 @@ export class SortingApplication {
         const sortingAlgorithm = this.algoSelectService.getSelectedAlgorithm();
         const order = this.orderService.getOrder();
         const columns = this.canvasService.resetCanvas();
-        this.sortingService = new SortingService(
-            sortingAlgorithm,
+        this.sortingService = new SortingService({
             order,
-            this.startButtonService,
             columns,
-        );
+            SortingAlgorithm: sortingAlgorithm,
+            startButtonService: this.startButtonService,
+            speedRangeService: this.speedRangeService,
+        });
     };
 
     constructor(){
+        this.speedRangeService = new SpeedRangeService();
         this.algoSelectService = new AlgoSelectService(this.resetApp);
         this.orderService = new OrderService(this.resetApp);
         this.canvasService = new CanvasService();
         this.startButtonService = new StartButtonService(this.setRun);
         this.resetButtonService = new ResetButtonService(this.resetApp);
-        this.windowService = new WindowService(this.setRun, this.resetApp);
+        this.windowService = new WindowService({
+            setAppState: this.setRun, 
+            resetApp: this.resetApp,
+            speedRangeService: this.speedRangeService,
+            algoSelectService: this.algoSelectService,
+            orderService: this.orderService,
+        });
         this.resetApp(true);
     }
 }
