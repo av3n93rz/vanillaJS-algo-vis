@@ -29,6 +29,7 @@ export class QuickSort {
                 comp++
                 yield true
                 arr[j].fillWithPeach();
+                this.#counterService.setComparison();
                 if ((this.#order === 'asc' && arr[j].value <= pivot?.value) || (this.#order === 'desc' && arr[j].value > pivot?.value)) {
                         swap++
                         i++;
@@ -42,6 +43,7 @@ export class QuickSort {
                             const col_2_x = col2.getCoordinates()[0];
                             col1.animate(col_2_x, this.animationTime);
                             col2.animate(col_1_x, this.animationTime);
+                            this.#counterService.setSwap();
                             yield true;
                             arr[i].fillWithOrange();
                         }
@@ -58,6 +60,9 @@ export class QuickSort {
             const col_2_x = col2.getCoordinates()[0];
             col1.animate(col_2_x, this.animationTime);
             col2.animate(col_1_x, this.animationTime);
+            if(h !== i+1) {
+                this.#counterService.setSwap();
+            }
             yield true;
             arr[i+1].fillWithRed();
             if(i+1 === h - 1 || comp === 1) {
