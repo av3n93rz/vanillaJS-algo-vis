@@ -11,8 +11,7 @@ export class QuickSort {
     sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     generator = function* (arr = this.#lst, l = 0, h = this.#lst.length - 1) {
-        let stack = new Array(h - l + 1);
-        stack.fill(0);
+        let stack = new Array(h - l + 1).fill(0);
         let top = -1;
         stack[++top] = l;
         stack[++top] = h;
@@ -30,7 +29,7 @@ export class QuickSort {
                 comp++
                 yield true
                 arr[j].fillWithPeach();
-                if (arr[j].value <= pivot?.value) {
+                if ((this.#order === 'asc' && arr[j].value <= pivot?.value) || (this.#order === 'desc' && arr[j].value > pivot?.value)) {
                         swap++
                         i++;
                         if(i !== j){
