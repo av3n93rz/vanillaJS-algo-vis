@@ -21,6 +21,11 @@ export class WindowService {
                 case 'Space':
                     setAppState();
                     break;
+                case 'Digit3':
+                    if(event.shiftKey){
+                        console.log('AAAAAAA')
+                    };
+                    break;
                 case 'KeyR':
                     resetApp();
                     break;
@@ -43,7 +48,7 @@ export class WindowService {
                     this.#algoSelectService.changeDown();
                     break;
                 default:
-                    resetApp();
+                    return;
             }
         });
     };

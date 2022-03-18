@@ -1,5 +1,6 @@
 import { BubbleSort } from '../algorithms/bubble-sort.js';
 import { SelectionSort } from '../algorithms/selection-sort.js';
+import { QuickSort } from '../algorithms/quick-sort.js';
 
 export class AlgoSelectService {
     #algoSelect;
@@ -14,6 +15,8 @@ export class AlgoSelectService {
         switch(this.#algoSelect.value) {
             case 'selectionSort':
                 return SelectionSort
+            case 'quickSort':
+                return QuickSort
             default:
                 return BubbleSort;
         }

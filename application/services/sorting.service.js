@@ -8,6 +8,7 @@ export class SortingService {
     #generatorFunction;
     #speedRangeService;
     #columns;
+    #algoRunnerService;
 
     #setStartButton = () => {
         if(this.#runInterval) {
@@ -30,10 +31,11 @@ export class SortingService {
         const intervalId = setInterval(() => {
             if(this.#runInterval) {
                 const { done } = this.#generatorFunction.next();
-
+                
                 if(done) {
                     this.setRunInterval(false);
                     this.#startButtonService.setDisabled(true);
+                    this.#algoRunnerService.reRun();
                 };
             } else {
                 clearInterval(intervalId);
@@ -65,8 +67,10 @@ export class SortingService {
         SortingAlgorithm,
         startButtonService,
         speedRangeService,
+        algoRunnerService,
     }) {
         this.#columns = columns;
+        this.#algoRunnerService = algoRunnerService;
         this.counterService = new CounterService();
         this.counterService.clearValues();
         this.setAlgorithm(SortingAlgorithm, order);

@@ -27,7 +27,7 @@ export class SpeedRangeService {
             const newValue = currentSpeed - 100;
             this.setSortingSpeed(newValue);
             this.#sortingSpeedRange.value = newValue;
-        }
+        };
     };
 
     decreaseSpeed = () => {
@@ -37,7 +37,7 @@ export class SpeedRangeService {
             const newValue = currentSpeed + 100;
             this.setSortingSpeed(newValue);
             this.#sortingSpeedRange.value = newValue;
-        }
+        };
     };
 
     constructor() {

@@ -6,6 +6,7 @@ import { CanvasService } from './services/canvas.service.js'
 import { AlgoSelectService } from './services/algo-select.service.js';
 import { OrderService } from './services/order.service.js';
 import { SpeedRangeService } from './services/speed-range.service.js';
+import { AlgoRunnerService } from './services/algo-runner.service.js';
 
 export class SortingApplication {
     run = false;
@@ -32,10 +33,12 @@ export class SortingApplication {
             SortingAlgorithm: sortingAlgorithm,
             startButtonService: this.startButtonService,
             speedRangeService: this.speedRangeService,
+            algoRunnerService: this.algoRunnerService,
         });
     };
 
     constructor(){
+        this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun)
         this.speedRangeService = new SpeedRangeService();
         this.algoSelectService = new AlgoSelectService(this.resetApp);
         this.orderService = new OrderService(this.resetApp);

@@ -4,19 +4,38 @@ export class ColumnService {
     regex = /[0-9]+/g;
     coordinates;
     #svgns = "http://www.w3.org/2000/svg";
+    color;
 
     #createSVGElement = (svgTag) => document.createElementNS(this.#svgns, svgTag);
 
     fillWithGreen = () => {
         this.#column.childNodes[0].style = 'fill: rgb(0, 216, 0);';
+        this.color = 'green';
     };
 
     fillWithBlue = () => {
         this.#column.childNodes[0].style = 'fill: rgb(173, 216, 230);';
+        this.color = 'blue';
     };
 
     fillWithRed = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(199, 72, 72);';
+        this.#column.childNodes[0].style = 'fill: rgb(188, 65, 43);';
+        this.color = 'red';
+    };
+
+    fillWithPeach = () => {
+        this.#column.childNodes[0].style = 'fill: rgb(215, 180, 158);';
+        this.color = 'peach';
+    };
+
+    fillWithOrange = () => {
+        this.#column.childNodes[0].style = 'fill: rgb(220, 96, 46);';
+        this.color = 'orange';
+    };
+
+    fillWithTeal = () => {
+        this.#column.childNodes[0].style = 'fill: rgb(5, 168, 170);';
+        this.color = 'teal';
     };
 
     animate = (X, animationTime) => {
@@ -57,6 +76,7 @@ export class ColumnService {
     };
 
     constructor(canvas, { columnHeight, y, index, value }) {
+        this.color = 'blue';
         this.#column = this.#createColumn(canvas, { columnHeight, y, index, value })
         this.value = value;
         this.coordinates = this.getCoordinates();
