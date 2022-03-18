@@ -8,7 +8,32 @@ export class QuickSort {
         this.animationTime = animationTime
     }
 
-    sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    #sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    #resetSelectedColors = (arr) => {
+        arr.forEach(col => {
+            if(['peach','orange'].includes(col.color)) {
+                col.fillWithBlue();
+            };
+        });
+    };
+
+    #endAnimation = async () => {
+        for (const col of this.#lst) {
+            await this.#sleep(20);
+            col.fillWithBlue();
+        };
+    };
+
+    #swap = (arr, num1, num2) => {
+        [arr[num1], arr[num2]] = [arr[num2], arr[num1]];
+        const col1 = arr[num2];
+        const col2 = arr[num1];
+        const col_1_x = col1.getCoordinates()[0];
+        const col_2_x = col2.getCoordinates()[0];
+        col1.animate(col_2_x, this.animationTime);
+        col2.animate(col_1_x, this.animationTime);
+    };
 
     generator = function* (arr = this.#lst, l = 0, h = this.#lst.length - 1) {
         let stack = new Array(h - l + 1).fill(0);
@@ -18,86 +43,67 @@ export class QuickSort {
         while (top >= 0) {
             h = stack[top--];
             l = stack[top--];
-            let temp;
             let pivot = arr[h];
-            let comp = 0;
-            let swap = 0;
-            arr[h].fillWithTeal();
-            yield true;
+            let comp = 0, swap = 0;
             let i = (l - 1);
+            pivot.fillWithTeal();
+            yield;
+            
             for (let j = l; j <= h - 1; j++) {
-                comp++
-                yield true
                 arr[j].fillWithPeach();
+                comp++;
                 this.#counterService.setComparison();
-                if ((this.#order === 'asc' && arr[j].value <= pivot?.value) || (this.#order === 'desc' && arr[j].value > pivot?.value)) {
-                        swap++
-                        i++;
-                        if(i !== j){
-                            temp = arr[i];
-                            arr[i] = arr[j];
-                            arr[j] = temp;
-                            const col1 = arr[i];
-                            const col2 = arr[j];
-                            const col_1_x = col1.getCoordinates()[0];
-                            const col_2_x = col2.getCoordinates()[0];
-                            col1.animate(col_2_x, this.animationTime);
-                            col2.animate(col_1_x, this.animationTime);
-                            this.#counterService.setSwap();
-                            yield true;
-                            arr[i].fillWithOrange();
-                        }
-                }
-                yield true;
-            }
-            yield true;
-            temp = arr[i + 1];
-            arr[i + 1] = arr[h];
-            arr[h] = temp;
-            const col1 = arr[i +1];
-            const col2 = arr[h];
-            const col_1_x = col1.getCoordinates()[0];
-            const col_2_x = col2.getCoordinates()[0];
-            col1.animate(col_2_x, this.animationTime);
-            col2.animate(col_1_x, this.animationTime);
+                yield;
+
+                if (
+                    (this.#order === 'asc' && arr[j].value <= pivot?.value) ||
+                    (this.#order === 'desc' && arr[j].value > pivot?.value)
+                ) {
+                    swap++;
+                    i++;
+                    if(i !== j) {
+                        this.#swap(arr, j, i);
+                        this.#counterService.setSwap();
+                        yield;
+
+                        arr[i].fillWithOrange();
+                    };
+                };
+                yield;
+            };
+
+            this.#swap(arr, i + 1, h);
             if(h !== i+1) {
                 this.#counterService.setSwap();
-            }
-            yield true;
+            };
+            yield;
+
             arr[i+1].fillWithRed();
             if(i+1 === h - 1 || comp === 1) {
                 arr[h].fillWithRed();
-            }
+            };
             if(swap === 1) {
                 arr[i].fillWithRed();
-            }
-            yield true
-            arr.forEach(col => {
-                if(col.color === 'peach' || col.color === 'orange'){
-                    col.fillWithBlue();
-                }
-            })
+            };
+            yield;
+
+            this.#resetSelectedColors(arr);
             let p = i + 1;
             if (p - 1 > l) {
                 stack[++top] = l;
                 stack[++top] = p - 1;
-            }
+            };
             if (p + 1 < h) {
                 stack[++top] = p + 1;
                 stack[++top] = h;
-            }
-            yield true;
+            };
+            yield;
         };
 
-        (async () => {
-            for (const col of this.#lst) {
-                await this.sleep(20)
-                col.fillWithBlue();
-            };
-        })();
-    }
+        this.#endAnimation();
+    };
 
-    constructor(svgGroups, counterService, order){
+    constructor(svgGroups, counterService, order) {
         this.#lst = svgGroups;
         this.#counterService = counterService;
         this.#order = order;
