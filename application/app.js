@@ -37,7 +37,7 @@ export class SortingApplication {
             speedRangeService: this.speedRangeService,
             algoRunnerService: this.algoRunnerService,
         });
-        if(isInit && this.#params.start) {
+        if(isInit && (this.#params.start || this.#params.auto)) {
             this.setRun(true);
         };
     };
@@ -54,7 +54,7 @@ export class SortingApplication {
         this.canvasService = new CanvasService();
         this.startButtonService = new StartButtonService(this.setRun);
         this.resetButtonService = new ResetButtonService(this.resetApp);
-        this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun);
+        this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun, this.#params.auto);
         this.windowService = new WindowService({
             setAppState: this.setRun, 
             resetApp: this.resetApp,

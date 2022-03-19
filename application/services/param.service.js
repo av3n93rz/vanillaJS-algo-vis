@@ -9,6 +9,12 @@ export class ParamService {
                 } else {
                     return false;
                 };
+            case 'auto':
+                if(value === 'true'){
+                    return true;
+                } else {
+                    return false;
+                };
             case 'a':
                 if(algorithms.includes(value)){
                     return value;
@@ -50,6 +56,7 @@ export class ParamService {
             return acc;
         }, {
             start: false,
+            auto: false,
             a: 'bubbleSort',
             s: 200,
             o: 'asc',
