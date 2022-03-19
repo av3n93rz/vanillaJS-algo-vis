@@ -5,7 +5,6 @@ import { PatienceSort } from '../algorithms/patience-sort.js';
 
 export class AlgoSelectService {
     #algoSelect;
-    #isOpen;
     #resetApp;
 
     blur = () => {
@@ -46,15 +45,15 @@ export class AlgoSelectService {
         };
     };
 
+    setSelectedAlgorithm = (algorithmName) => {
+        this.#algoSelect.value = algorithmName;
+    }
+
     constructor(resetApp) {
-        this.#isOpen = false;
         this.#resetApp = resetApp;
         this.#algoSelect = document.getElementById('algoSelect');
-        this.#algoSelect.addEventListener('mouseup', () => {
-            this.#isOpen = !this.#isOpen;
-            if(!this.#isOpen) {
-                this.blur();
-            };
+        this.#algoSelect.addEventListener('change', () => {
+            this.blur();
         });
         this.#algoSelect.addEventListener('change', () => {
             resetApp();

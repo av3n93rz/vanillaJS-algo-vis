@@ -18,6 +18,7 @@ export class SpeedRangeService {
     setSortingSpeed = (sortingSpeed) => {
         this.#sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`;
         this.#animationTime = parseInt(sortingSpeed);
+        this.#sortingSpeedRange.value = sortingSpeed;
     };
 
     increaseSpeed = () => {
@@ -26,7 +27,6 @@ export class SpeedRangeService {
         if(currentSpeed > 0 && !isDisabled) {
             const newValue = currentSpeed - 100;
             this.setSortingSpeed(newValue);
-            this.#sortingSpeedRange.value = newValue;
         };
     };
 
@@ -36,7 +36,6 @@ export class SpeedRangeService {
         if(currentSpeed < 2000 && !isDisabled) {
             const newValue = currentSpeed + 100;
             this.setSortingSpeed(newValue);
-            this.#sortingSpeedRange.value = newValue;
         };
     };
 

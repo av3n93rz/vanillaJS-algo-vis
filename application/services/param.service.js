@@ -1,7 +1,7 @@
 export class ParamService {
 
     #parameterValidation = (key, value) => {
-        const algorithms = ['quickSort', 'selectionSort', 'bubbleSort']
+        const algorithms = ['quickSort', 'selectionSort', 'bubbleSort', 'patienceSort']
         switch(key){
             case 'start':
                 if(value === 'true'){
@@ -40,7 +40,7 @@ export class ParamService {
         }
     }
 
-    #getParams = () => {
+    #initParams = () => {
         return document.location.search.slice(1).split('&').reduce((acc, cur) => {
             const [key, value] = cur.split('=');
             const validity = this.#parameterValidation(key, value);
@@ -57,7 +57,6 @@ export class ParamService {
     };
 
     constructor() {
-        this.params = this.#getParams();
-        console.log(this.params);
+        this.params = this.#initParams();
     };
 };

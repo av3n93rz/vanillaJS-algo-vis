@@ -10,6 +10,7 @@ import { AlgoRunnerService } from './services/algo-runner.service.js';
 import { ParamService } from './services/param.service.js';
 
 export class SortingApplication {
+    #params;
     run = false;
 
     setRun = (isRunning) => {
@@ -36,17 +37,24 @@ export class SortingApplication {
             speedRangeService: this.speedRangeService,
             algoRunnerService: this.algoRunnerService,
         });
+        if(isInit && this.#params.start) {
+            this.setRun(true);
+        };
     };
 
     constructor(){
         this.paramService = new ParamService();
-        this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun)
+        this.#params = this.paramService.params;
         this.speedRangeService = new SpeedRangeService();
+        this.speedRangeService.setSortingSpeed(this.#params.s);
         this.algoSelectService = new AlgoSelectService(this.resetApp);
+        this.algoSelectService.setSelectedAlgorithm(this.#params.a);
         this.orderService = new OrderService(this.resetApp);
+        this.orderService.setOrder(this.#params.o);
         this.canvasService = new CanvasService();
         this.startButtonService = new StartButtonService(this.setRun);
         this.resetButtonService = new ResetButtonService(this.resetApp);
+        this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun);
         this.windowService = new WindowService({
             setAppState: this.setRun, 
             resetApp: this.resetApp,
