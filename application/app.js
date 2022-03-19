@@ -7,6 +7,7 @@ import { AlgoSelectService } from './services/algo-select.service.js';
 import { OrderService } from './services/order.service.js';
 import { SpeedRangeService } from './services/speed-range.service.js';
 import { AlgoRunnerService } from './services/algo-runner.service.js';
+import { ParamService } from './services/param.service.js';
 
 export class SortingApplication {
     run = false;
@@ -38,6 +39,7 @@ export class SortingApplication {
     };
 
     constructor(){
+        this.paramService = new ParamService();
         this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun)
         this.speedRangeService = new SpeedRangeService();
         this.algoSelectService = new AlgoSelectService(this.resetApp);

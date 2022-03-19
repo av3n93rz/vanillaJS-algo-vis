@@ -76,7 +76,7 @@ export class PatienceSort {
             for (let i = 0; i < tmp.length; i++){
                 const tmp_val = tmp[i];
                 if(this.#lst[i].value !== tmp_val.value){
-                    const originalIndex = this.#lst.findIndex((col, index) => col.value === tmp_val.value && index > i)
+                    const originalIndex = this.#lst.findIndex((col, index) => index > i && col.value === tmp_val.value)
                     if( originalIndex >= 0){
                         this.#counterService.setSwap();
                         this.#swap(this.#lst, i, originalIndex)
