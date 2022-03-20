@@ -1,49 +1,35 @@
-export class BubbleSort {
-    animationTime;
-    #lst;
-    #counterService;
-    #order;
+import { SortingAlgorithmBase } from './sorting-algorithm-base.js'
 
-    setAnimationTime = (animationTime) => {
-        this.animationTime = animationTime
-    }
+export class BubbleSort extends SortingAlgorithmBase {
 
     generator = function* () {
         let noswaps = false;
-        for (let i = 0; i < this.#lst.length; i++){
+        for (let i = 0; i < this.lst.length; i++){
             noswaps = true
-            for (let j = 0; j < this.#lst.length - i - 1; j++){
-                const col1 = this.#lst[j];
-                const col2 = this.#lst[j+1];
+            for (let j = 0; j < this.lst.length - i - 1; j++){
+                const col1 = this.lst[j];
+                const col2 = this.lst[j+1];
                 col1.fillWithGreen();
                 col2.fillWithGreen();
-                yield true
-                this.#counterService.setComparison();
-                if((col1.value > col2.value && this.#order === 'asc') || (col1.value < col2.value && this.#order === 'desc')) {
+                yield;
+                this.counterService.setComparison();
+                if((col1.value > col2.value && this.order === 'asc') || (col1.value < col2.value && this.order === 'desc')) {
                     noswaps = false
-                    const col_1_x = col1.getCoordinates()[0];
-                    const col_2_x = col2.getCoordinates()[0];
-                    col1.animate(col_2_x, this.animationTime);
-                    col2.animate(col_1_x, this.animationTime);
-                    this.#counterService.setSwap();
-                    const currentElement = this.#lst.splice(j, 1)
-                    this.#lst.splice(j+1, 0, currentElement[0])
+                    this.swap(this.lst, j, j+1)
                 } 
-                yield true
+                yield;
                 col1.fillWithBlue();
                 col2.fillWithBlue();
-                yield true
+                yield;
             }
             if(noswaps){
                 break
             };
         }
-        return this.#lst;
+        return this.lst;
     }
 
-    constructor(svgGroups, counterService, order){
-        this.#lst = svgGroups;
-        this.#counterService = counterService;
-        this.#order = order;
+    constructor(svgGroups, counterService, order) {
+        super(svgGroups, counterService, order);
     };
 };
