@@ -1,15 +1,6 @@
 import { SortingAlgorithmBase } from './sorting-algorithm-base.js'
 
 export class QuickSort extends SortingAlgorithmBase {
-
-    #resetSelectedColors = (arr) => {
-        arr.forEach(col => {
-            if(['peach','orange'].includes(col.color)) {
-                col.fillWithBlue();
-            };
-        });
-    };
-
     generator = function* (arr = this.lst, l = 0, h = this.lst.length - 1) {
         let stack = new Array(h - l + 1).fill(0);
         let top = -1;
@@ -58,7 +49,7 @@ export class QuickSort extends SortingAlgorithmBase {
             };
             yield;
 
-            this.#resetSelectedColors(arr);
+            this.resetSelectedColors(arr);
             let p = i + 1;
             if (p - 1 > l) {
                 stack[++top] = l;

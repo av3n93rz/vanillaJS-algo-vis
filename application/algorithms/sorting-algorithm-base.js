@@ -17,6 +17,14 @@ export class SortingAlgorithmBase {
         };
     };
 
+    resetSelectedColors = () => {
+        this.lst.forEach(col => {
+            if(['peach','orange'].includes(col.color)) {
+                col.fillWithBlue();
+            };
+        });
+    };
+
     swap = (arr, num1, num2) => {
         if(num1 !== num2) {
             [arr[num1], arr[num2]] = [arr[num2], arr[num1]];
