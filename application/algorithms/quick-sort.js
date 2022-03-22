@@ -1,4 +1,4 @@
-import { SortingAlgorithmBase } from './sorting-algorithm-base.js'
+import { SortingAlgorithmBase } from './sorting-algorithm-base.js';
 
 export class QuickSort extends SortingAlgorithmBase {
     generator = function* (arr = this.lst, l = 0, h = this.lst.length - 1) {
@@ -6,7 +6,7 @@ export class QuickSort extends SortingAlgorithmBase {
         let top = -1;
         stack[++top] = l;
         stack[++top] = h;
-        while (top >= 0) {
+        while(top >= 0) {
             h = stack[top--];
             l = stack[top--];
             let pivot = arr[h];
@@ -14,14 +14,13 @@ export class QuickSort extends SortingAlgorithmBase {
             let i = (l - 1);
             pivot.fillWithTeal();
             yield;
-            
-            for (let j = l; j <= h - 1; j++) {
+
+            for(let j = l; j <= h - 1; j++) {
                 arr[j].fillWithPeach();
                 comp++;
                 this.counterService.setComparison();
                 yield;
-
-                if (
+                if(
                     (this.order === 'asc' && arr[j].value <= pivot?.value) ||
                     (this.order === 'desc' && arr[j].value > pivot?.value)
                 ) {
@@ -30,16 +29,13 @@ export class QuickSort extends SortingAlgorithmBase {
                     if(i !== j) {
                         this.swap(arr, j, i);
                         yield;
-
                         arr[i].fillWithOrange();
                     };
                 };
                 yield;
             };
-
             this.swap(arr, i + 1, h);
             yield;
-
             arr[i+1].fillWithRed();
             if(i+1 === h - 1 || comp === 1) {
                 arr[h].fillWithRed();
@@ -48,14 +44,13 @@ export class QuickSort extends SortingAlgorithmBase {
                 arr[i].fillWithRed();
             };
             yield;
-
             this.resetSelectedColors(arr);
             let p = i + 1;
-            if (p - 1 > l) {
+            if(p - 1 > l) {
                 stack[++top] = l;
                 stack[++top] = p - 1;
             };
-            if (p + 1 < h) {
+            if(p + 1 < h) {
                 stack[++top] = p + 1;
                 stack[++top] = h;
             };

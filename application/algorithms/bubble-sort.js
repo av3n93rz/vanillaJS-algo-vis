@@ -3,11 +3,11 @@ import { SortingAlgorithmBase } from './sorting-algorithm-base.js';
 export class BubbleSort extends SortingAlgorithmBase {
     generator = function* () {
         let noswaps = false;
-        for (let i = 0; i < this.lst.length; i++) {
+        for(let i = 0; i < this.lst.length; i++) {
             noswaps = true;
             let col1;
             let col2;
-            for (let j = 0; j < this.lst.length - i - 1; j++) {
+            for(let j = 0; j < this.lst.length - i - 1; j++) {
                 col1 = this.lst[j];
                 col2 = this.lst[j+1];
                 col1.fillWithTeal();
@@ -39,6 +39,7 @@ export class BubbleSort extends SortingAlgorithmBase {
                 break;
             };
         };
+
         this.endAnimation();
     };
 
