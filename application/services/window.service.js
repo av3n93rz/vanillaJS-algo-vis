@@ -21,11 +21,6 @@ export class WindowService {
                 case 'Space':
                     setAppState();
                     break;
-                case 'Digit3':
-                    if(event.shiftKey){
-                        console.log('AAAAAAA')
-                    };
-                    break;
                 case 'KeyR':
                     resetApp();
                     break;
@@ -42,14 +37,14 @@ export class WindowService {
                     this.#speedRangeService.increaseSpeed();
                     break;
                 case 'ArrowUp':
-                    this.#algoSelectService.changeUp();
+                    this.#algoSelectService.change('prev');
                     break;
                 case 'ArrowDown':
-                    this.#algoSelectService.changeDown();
+                    this.#algoSelectService.change('next');
                     break;
                 default:
                     return;
-            }
+            };
         });
     };
 };
