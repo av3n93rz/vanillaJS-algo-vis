@@ -1,4 +1,5 @@
 import { ColumnService } from './column.service.js';
+import { getById } from '../utils.js';
 
 export class CanvasService {
     #canvas;
@@ -21,6 +22,6 @@ export class CanvasService {
     };
 
     constructor() {
-        this.#canvas = document.getElementById('canvas');
+        this.#canvas = getById('canvas');
     };
 };
