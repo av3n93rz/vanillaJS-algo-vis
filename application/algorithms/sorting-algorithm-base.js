@@ -12,7 +12,7 @@ export class SortingAlgorithmBase {
 
     endAnimation = async () => {
         for (const col of this.lst) {
-            await this.sleep(20);
+            await this.sleep(2);
             col.fillWith('blue');
         };
     };

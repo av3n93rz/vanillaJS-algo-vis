@@ -18,9 +18,9 @@ export class ColumnService {
         Object.entries(options).forEach(([key, value]) => {
             if(key === 'text') {
                 element.textContent = value;
+            } else {
+                element.setAttribute(key, value);
             };
-
-            element.setAttribute(key, value);
         });
 
         return element;
@@ -40,16 +40,20 @@ export class ColumnService {
         this.setCoordinates(X)
     }
 
-    getCoordinates = () => this.#column.getAttribute('transform').match(/[0-9]+/g);
+    getCoordinates = () => this.#column.getAttribute('transform').match(/[0-9]*[.]?[0-9]+|[0-9]+[.]?[0-9]*/g);
+    
 
     setCoordinates = (X) => {
         this.#column.setAttribute("transform", `translate(${X}, ${this.coordinates[1]})`);
         this.coordinates = this.getCoordinates();
     }
 
-    #createColumn = (canvas, { columnHeight, y, index, value }) => {
+    #createColumn = (canvas, { columnHeight, y, index, value, columnWidth, spaceWidth }) => {
+        
+        const fontSize = columnWidth > 27 ? 16 : 10;
+
         const rect = this.#createSVGElement('rect', {
-            width: 43,
+            width: columnWidth,
             height: columnHeight,
             style: this.colors.blue,
         });
@@ -57,10 +61,11 @@ export class ColumnService {
         const text = this.#createSVGElement('text', {
             text: value.toString(),
             y: columnHeight - 5,
+            style: `font-size: ${fontSize}px`
         });
 
         const g = this.#createSVGElement('g', {
-            transform: `translate(${8 + (53*index)}, ${y})`,
+            transform: `translate(${(spaceWidth + (columnWidth + spaceWidth) * index)}, ${y})`,
         });
 
         g.appendChild(rect);
@@ -68,13 +73,13 @@ export class ColumnService {
         canvas.appendChild(g);
         
         const { width } = text.getBBox();
-        text.setAttribute('x', (43 / 2) - Math.round(width / 2));
+        text.setAttribute('x', (columnWidth / 2) - Math.round(width / 2));
         return g;
     };
 
-    constructor(canvas, { columnHeight, y, index, value }) {
+    constructor(canvas, { columnHeight, y, index, value, columnWidth, spaceWidth}) {
         this.color = 'blue';
-        this.#column = this.#createColumn(canvas, { columnHeight, y, index, value })
+        this.#column = this.#createColumn(canvas, { columnHeight, y, index, value, columnWidth, spaceWidth })
         this.value = value;
         this.coordinates = this.getCoordinates();
     };
