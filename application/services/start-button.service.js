@@ -1,3 +1,5 @@
+import { getById } from '../utils.js';
+
 export class StartButtonService {
     #startButton;
 
@@ -19,15 +21,11 @@ export class StartButtonService {
         this.#startButton.classList.add('btn-danger');
     };
 
-    blur = () => {
-        this.#startButton.blur();
-    };
-
     constructor(appStateSetter) {
-        this.#startButton = document.getElementById('start_pause');
+        this.#startButton = getById('start_pause');
         this.#startButton.addEventListener('click', () => {
             appStateSetter();
-            this.blur();
+            this.#startButton.blur();
         });
     };
 };

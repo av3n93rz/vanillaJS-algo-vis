@@ -1,3 +1,5 @@
+import { getById } from '../utils.js';
+
 export class CounterService {
     #swap;
     #comparison;
@@ -16,7 +18,7 @@ export class CounterService {
     }
 
     constructor() {
-        this.#swap = document.getElementById('swap');
-        this.#comparison = document.getElementById('comparison');
+        this.#swap = getById('swap');
+        this.#comparison = getById('comparison');
     };
 };

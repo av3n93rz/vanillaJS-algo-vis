@@ -1,3 +1,5 @@
+import { getById } from '../utils.js';
+
 export class OrderService {
     #asc;
     #desc;
@@ -26,8 +28,8 @@ export class OrderService {
     getOrder = () => this.#order;
 
     constructor(resetApp) {
-        this.#asc = document.getElementById('asc');
-        this.#desc = document.getElementById('desc');
+        this.#asc = getById('asc');
+        this.#desc = getById('desc');
         this.#order = 'asc';
         this.#asc.addEventListener('click', () => {
             this.#asc.blur();

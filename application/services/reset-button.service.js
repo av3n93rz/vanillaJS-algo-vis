@@ -1,12 +1,10 @@
+import { getById } from '../utils.js';
+
 export class ResetButtonService {
     #resetButton;
 
-    blur = () => {
-        this.#resetButton.blur();
-    };
-
     constructor(resetApp) {
-        this.#resetButton = document.getElementById('reset');
+        this.#resetButton = getById('reset');
         this.#resetButton.addEventListener('click', () => {
             resetApp();
             this.#resetButton.blur();

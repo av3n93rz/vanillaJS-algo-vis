@@ -1,3 +1,5 @@
+import { getById } from '../utils.js';
+
 export class SpeedRangeService {
     #sortingSpeedRange;
     #sortingSpeedLabel;
@@ -40,8 +42,8 @@ export class SpeedRangeService {
     };
 
     constructor() {
-        this.#sortingSpeedLabel = document.getElementById('sortingSpeedLabel');
-        this.#sortingSpeedRange = document.getElementById('sortingSpeedRange');
+        this.#sortingSpeedLabel = getById('sortingSpeedLabel');
+        this.#sortingSpeedRange = getById('sortingSpeedRange');
         this.#animationTime = this.#sortingSpeedRange.value;
         this.#sortingSpeedRange.addEventListener('change', (e) => 
             this.setSortingSpeed(e.target.value)
