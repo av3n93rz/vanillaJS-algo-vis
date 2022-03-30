@@ -27,7 +27,7 @@ export class SpeedRangeService {
         const isDisabled = this.#getDisability();
         const currentSpeed = Number(this.#animationTime);
         if(currentSpeed > 0 && !isDisabled) {
-            const newValue = currentSpeed - 100;
+            const newValue = currentSpeed - 25;
             this.setSortingSpeed(newValue);
         };
     };
@@ -35,8 +35,8 @@ export class SpeedRangeService {
     decreaseSpeed = () => {
         const isDisabled = this.#getDisability();
         const currentSpeed = Number(this.#animationTime);
-        if(currentSpeed < 2000 && !isDisabled) {
-            const newValue = currentSpeed + 100;
+        if(currentSpeed < 500 && !isDisabled) {
+            const newValue = currentSpeed + 25;
             this.setSortingSpeed(newValue);
         };
     };
