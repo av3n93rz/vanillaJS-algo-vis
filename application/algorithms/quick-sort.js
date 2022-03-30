@@ -12,11 +12,11 @@ export class QuickSort extends SortingAlgorithmBase {
             let pivot = arr[h];
             let comp = 0, swap = 0;
             let i = (l - 1);
-            pivot.fillWithTeal();
+            pivot.fillWith('teal');
             yield;
 
             for(let j = l; j <= h - 1; j++) {
-                arr[j].fillWithPeach();
+                arr[j].fillWith('peach');
                 comp++;
                 this.counterService.setComparison();
                 yield;
@@ -29,19 +29,19 @@ export class QuickSort extends SortingAlgorithmBase {
                     if(i !== j) {
                         this.swap(arr, j, i);
                         yield;
-                        arr[i].fillWithOrange();
+                        arr[i].fillWith('orange');
                     };
                 };
                 yield;
             };
             this.swap(arr, i + 1, h);
             yield;
-            arr[i+1].fillWithRed();
+            arr[i+1].fillWith('red');
             if(i+1 === h - 1 || comp === 1) {
-                arr[h].fillWithRed();
+                arr[h].fillWith('red');
             };
             if(swap === 1) {
-                arr[i].fillWithRed();
+                arr[i].fillWith('red');
             };
             yield;
             this.resetSelectedColors(arr);

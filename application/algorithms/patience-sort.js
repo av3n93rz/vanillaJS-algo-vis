@@ -7,7 +7,7 @@ export class PatienceSort extends SortingAlgorithmBase {
 
         for(let i = 0; i < arr.length; i++) {
             const num = arr[i];
-            num.fillWithTeal();
+            num.fillWith('teal');
             yield;
             this.counterService.setComparison();
             const destinationPileIndex = piles.findIndex(
@@ -18,7 +18,7 @@ export class PatienceSort extends SortingAlgorithmBase {
             } else {
                 piles[destinationPileIndex].push(num);
             };
-            num.fillWithPeach();
+            num.fillWith('peach');
             yield;
         };
 
@@ -44,7 +44,7 @@ export class PatienceSort extends SortingAlgorithmBase {
             } else {
                 tmp[i] = distPile.pop();
             };
-            tmp[i].fillWithOrange();
+            tmp[i].fillWith('orange');
             yield;
             if(distPile.length === 0) {
                 piles.splice(destinationPileIndex, 1);
@@ -60,7 +60,7 @@ export class PatienceSort extends SortingAlgorithmBase {
                     yield;
                 };
             };
-            this.lst[i].fillWithRed();
+            this.lst[i].fillWith('red');
             yield;
         };
 

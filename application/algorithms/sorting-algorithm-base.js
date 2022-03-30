@@ -13,14 +13,14 @@ export class SortingAlgorithmBase {
     endAnimation = async () => {
         for (const col of this.lst) {
             await this.sleep(20);
-            col.fillWithBlue();
+            col.fillWith('blue');
         };
     };
 
     resetSelectedColors = () => {
         this.lst.forEach(col => {
             if(['peach','orange'].includes(col.color)) {
-                col.fillWithBlue();
+                col.fillWith('blue');
             };
         });
     };

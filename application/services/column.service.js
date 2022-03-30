@@ -1,42 +1,35 @@
 export class ColumnService {
     #column;
     value;
-    regex = /[0-9]+/g;
     coordinates;
     #svgns = "http://www.w3.org/2000/svg";
     color;
-
-    #createSVGElement = (svgTag) => document.createElementNS(this.#svgns, svgTag);
-
-    fillWithGreen = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(0, 216, 0);';
-        this.color = 'green';
+    colors = {
+        green: 'fill: rgb(0, 216, 0)',
+        blue: 'fill: rgb(173, 216, 230)',
+        red: 'fill: rgb(188, 65, 43)',
+        peach: 'fill: rgb(215, 180, 158)',
+        orange: 'fill: rgb(220, 96, 46)',
+        teal: 'fill: rgb(5, 168, 170)'
     };
 
-    fillWithBlue = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(173, 216, 230);';
-        this.color = 'blue';
+    #createSVGElement = (svgTag, options = {}) => {
+        const element = document.createElementNS(this.#svgns, svgTag)
+        Object.entries(options).forEach(([key, value]) => {
+            if(key === 'text') {
+                element.textContent = value;
+            };
+
+            element.setAttribute(key, value);
+        });
+
+        return element;
     };
 
-    fillWithRed = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(188, 65, 43);';
-        this.color = 'red';
-    };
-
-    fillWithPeach = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(215, 180, 158);';
-        this.color = 'peach';
-    };
-
-    fillWithOrange = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(220, 96, 46);';
-        this.color = 'orange';
-    };
-
-    fillWithTeal = () => {
-        this.#column.childNodes[0].style = 'fill: rgb(5, 168, 170);';
-        this.color = 'teal';
-    };
+    fillWith = (color) => {
+        this.#column.childNodes[0].style = this.colors[color];
+        this.color = color;
+    }
 
     animate = (X, animationTime) => {
         this.#column.animate([
@@ -47,7 +40,7 @@ export class ColumnService {
         this.setCoordinates(X)
     }
 
-    getCoordinates = () => this.#column.getAttribute('transform').match(this.regex);
+    getCoordinates = () => this.#column.getAttribute('transform').match(/[0-9]+/g);
 
     setCoordinates = (X) => {
         this.#column.setAttribute("transform", `translate(${X}, ${this.coordinates[1]})`);
@@ -55,17 +48,21 @@ export class ColumnService {
     }
 
     #createColumn = (canvas, { columnHeight, y, index, value }) => {
-        const rect = this.#createSVGElement('rect');
-        rect.setAttribute('width', 43);
-        rect.setAttribute('height', columnHeight);
-        rect.style = 'fill: rgb(173, 216, 230);'
+        const rect = this.#createSVGElement('rect', {
+            width: 43,
+            height: columnHeight,
+            style: this.colors.blue,
+        });
 
-        const text = this.#createSVGElement('text');
-        text.textContent = value.toString();
-        text.setAttribute('y', columnHeight - 5);
+        const text = this.#createSVGElement('text', {
+            text: value.toString(),
+            y: columnHeight - 5,
+        });
 
-        const g = this.#createSVGElement('g');
-        g.setAttribute("transform", `translate(${8 + (53*index)}, ${y})`);
+        const g = this.#createSVGElement('g', {
+            transform: `translate(${8 + (53*index)}, ${y})`,
+        });
+
         g.appendChild(rect);
         g.appendChild(text);
         canvas.appendChild(g);
