@@ -1,0 +1,1 @@
+export const getById = (selector, parent = document) => parent.getElementById(selector);
