@@ -37,10 +37,10 @@ export class WindowService {
                     this.#speedRangeService.increaseSpeed();
                     break;
                 case 'ArrowUp':
-                    this.#algoSelectService.change('prev');
+                    this.#algoSelectService.changeAlgorithm('prev');
                     break;
                 case 'ArrowDown':
-                    this.#algoSelectService.change('next');
+                    this.#algoSelectService.changeAlgorithm('next');
                     break;
                 default:
                     return;
