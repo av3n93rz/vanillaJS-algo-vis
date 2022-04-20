@@ -11,6 +11,7 @@ import { ParamService } from './services/param.service.js';
 
 export class SortingApplication {
     #params;
+    #columnNumber = 15;
     run = false;
 
     setRun = (isRunning) => {
@@ -22,13 +23,24 @@ export class SortingApplication {
         };
     };
 
+    #changeColumnNumber = (o) => {
+        if(o === 'increase' && this.#columnNumber < 50) {
+            this.#columnNumber++
+            this.resetApp();
+        };
+        if(o === 'decrease' && this.#columnNumber > 1) {
+            this.#columnNumber--
+            this.resetApp();
+        };
+    };
+
     resetApp = (isInit) => {
         if(!isInit){
             this.setRun(false);
         };
         const sortingAlgorithm = this.algoSelectService.getSelectedAlgorithm();
         const order = this.orderService.getOrder();
-        const columns = this.canvasService.resetCanvas();
+        const columns = this.canvasService.resetCanvas(this.#columnNumber);
         this.sortingService = new SortingService({
             order,
             columns,
@@ -56,6 +68,7 @@ export class SortingApplication {
         this.resetButtonService = new ResetButtonService(this.resetApp);
         this.algoRunnerService = new AlgoRunnerService(this.resetApp, this.setRun, this.#params.auto);
         this.windowService = new WindowService({
+            changeColumnNumber: this.#changeColumnNumber,
             setAppState: this.setRun, 
             resetApp: this.resetApp,
             speedRangeService: this.speedRangeService,

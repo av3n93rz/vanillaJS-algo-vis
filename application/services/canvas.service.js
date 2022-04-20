@@ -3,15 +3,12 @@ import { getById } from '../utils.js';
 
 export class CanvasService {
     #canvas;
-    columnNumber = 20;
     #blockHeight = Math.floor((250 - 20)/100);
 
-    #generateArray = () => new Array(this.columnNumber).fill(null).map(() => Math.ceil((Math.random() * 100)));
-
-    #drawChart = () => {
-        const columnWidth = 800 / (this.columnNumber + ((this.columnNumber + 1) / 4));
-        const spaceWidth = (800 - (this.columnNumber * columnWidth)) / (this.columnNumber + 1);
-        const lst = this.#generateArray();
+    #drawChart = (columnNumber) => {
+        const columnWidth = 800 / (columnNumber + ((columnNumber + 1) / 4));
+        const spaceWidth = (800 - (columnNumber * columnWidth)) / (columnNumber + 1);
+        const lst = new Array(columnNumber).fill(null).map(() => Math.ceil((Math.random() * 100)));
         return lst.map((value, index) => {
             const columnHeight = value * this.#blockHeight;
             const y = 240 - columnHeight;
@@ -19,9 +16,9 @@ export class CanvasService {
         });
     };
 
-    resetCanvas = () => {
+    resetCanvas = (columnNumber = 15) => {
         this.#canvas.innerHTML = null;
-        return this.#drawChart();
+        return this.#drawChart(columnNumber);
     };
 
     constructor() {

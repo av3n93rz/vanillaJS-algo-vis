@@ -7,6 +7,7 @@ export class WindowService {
     constructor({
         setAppState,
         resetApp,
+        changeColumnNumber,
         speedRangeService,
         algoSelectService,
         orderService,
@@ -31,9 +32,17 @@ export class WindowService {
                     this.#orderService.setOrder('desc');
                     break;
                 case 'ArrowRight':
+                    if(event.ctrlKey){
+                        changeColumnNumber('increase');
+                        break;
+                    };
                     this.#speedRangeService.decreaseSpeed();
                     break;
                 case 'ArrowLeft':
+                    if(event.ctrlKey){
+                        changeColumnNumber('decrease');
+                        break;
+                    };
                     this.#speedRangeService.increaseSpeed();
                     break;
                 case 'ArrowUp':
