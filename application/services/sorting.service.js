@@ -59,7 +59,7 @@ export class SortingService {
     setAlgorithm = (SortingAlgorithm, order) => {
         this.#sortingAlgorithm = new SortingAlgorithm(this.#columns, this.counterService, order);
         this.#generatorFunction = this.#sortingAlgorithm.generator();
-    }
+    };
  
     constructor({
         order,

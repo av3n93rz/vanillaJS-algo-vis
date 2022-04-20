@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>@av3n93rz - Vanilla JS Algo Vis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css"/>
     <script type="module" src="main.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="mcontainer">
         <div class="chart">
-            <div>
+            <div class="inner_container">
                 <div class="counter_container">
                     <p>Comparisons: <span id="comparison">0</span></p>
                     <p>Swaps: <span id="swap">0</span></p>
                 </div>
-                <svg id="canvas" width="800" height="250"></svg>
+                <svg id="canvas" height="250"></svg>
             </div>
         </div>
         <div class="settings">
@@ -27,20 +27,20 @@
                     <button id="start_pause" type="button" class="btn btn-success">Start</button>
                     <button id="reset" type="button" class="btn btn-warning">Reset</button>
                 </div>
-                <div class="rangeContainer">
-                    <label for="sortingSpeedRange" class="form-label" id="sortingSpeedLabel">Sorting Speed: 200ms</label>
+                <div class="range_container">
+                    <label for="sortingSpeedRange" class="form-label" id="sortingSpeedLabel">Sorting Speed Throttle: 200ms</label>
                     <input type="range" class="form-range" min="0" max="500" step="25" id="sortingSpeedRange" value="200">
                 </div>
             </div>
             <div>
-                <select id="algoSelect" class="form-select">
+                <select id="algo_select" class="form-select">
                     <option selected value="bubbleSort">Bubble Sort</option>
                     <option value="selectionSort">Selection Sort</option>
                     <option value="quickSort">Quick Sort</option>
                     <option value="patienceSort">Patience Sort</option>
                 </select>
-                <div class="sortingOrder">
-                    <button  id="asc" type="button" class="btn btn-success selectedOrder">Asc</button>
+                <div class="sorting_order">
+                    <button  id="asc" type="button" class="btn btn-success selected_order">Asc</button>
                     <button  id="desc" type="button" class="btn btn-light">Desc</button>
                 </div>
             </div>

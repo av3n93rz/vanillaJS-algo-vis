@@ -18,7 +18,7 @@ export class SpeedRangeService {
     #getDisability = () => this.#sortingSpeedRange.getAttribute('disabled');
 
     setSortingSpeed = (sortingSpeed) => {
-        this.#sortingSpeedLabel.innerText = `Sorting Speed: ${sortingSpeed}ms`;
+        this.#sortingSpeedLabel.innerText = `Sorting Speed Throttle: ${sortingSpeed}ms`;
         this.#animationTime = parseInt(sortingSpeed);
         this.#sortingSpeedRange.value = sortingSpeed;
     };

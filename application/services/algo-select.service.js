@@ -39,11 +39,11 @@ export class AlgoSelectService {
 
     setSelectedAlgorithm = (algorithmName) => {
         this.#algoSelect.value = algorithmName;
-    }
+    };
 
     constructor(resetApp) {
         this.#resetApp = resetApp;
-        this.#algoSelect = getById('algoSelect');
+        this.#algoSelect = getById('algo_select');
         this.#algoSelect.addEventListener('change', () => {
             this.#algoSelect.blur();
         });

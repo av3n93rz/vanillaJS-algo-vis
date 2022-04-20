@@ -15,7 +15,7 @@ export class CounterService {
     clearValues = () => {
         this.#comparison.innerText = '0';
         this.#swap.innerText = '0';
-    }
+    };
 
     constructor() {
         this.#swap = getById('swap');

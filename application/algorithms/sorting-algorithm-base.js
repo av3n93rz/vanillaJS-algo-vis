@@ -32,8 +32,9 @@ export class SortingAlgorithmBase {
             const col2 = arr[num1];
             const col_1_x = col1.getCoordinates()[0];
             const col_2_x = col2.getCoordinates()[0];
-            col1.animate(col_2_x, this.animationTime);
-            col2.animate(col_1_x, this.animationTime);
+            col1.animate(parseFloat(col_1_x), parseFloat(col_1_x) - parseFloat(col_2_x), this.animationTime/2);
+            col2.animate(parseFloat(col_2_x), parseFloat(col_2_x) - parseFloat(col_1_x), this.animationTime/2);
+            console.log('after')
             this.counterService.setSwap();
         };
     };
@@ -43,5 +44,4 @@ export class SortingAlgorithmBase {
         this.counterService = counterService;
         this.order = order;
     };
-
 };
